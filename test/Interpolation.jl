@@ -15,13 +15,13 @@ for Battrib in [:B1, :B2]
 	ny=randn(length(nx));
 	# interpolate (my=f(ny))
 	my=zeros(length(mx));
-	@btime Interpolation.interp_spray!(ny, my, pa, :interp)
+	@time Interpolation.interp_spray!(ny, my, pa, :interp)
 
 	myp = randn(length(my));
 
 	# spray (nyp=fˣ(myp))
 	nyp=zeros(length(nx));
-	@btime Interpolation.interp_spray!(nyp, myp, pa, :spray)
+	@time Interpolation.interp_spray!(nyp, myp, pa, :spray)
 
 	# dot product test
 	@test dot(my, myp) ≈ dot(ny, nyp)
@@ -36,12 +36,12 @@ pa=Interpolation.Kernel([nx, nz], [nx, nz], Battrib)
 println("=====================================")
 ny=randn(length(nz), length(nx));
 my=zeros(length(nz), length(nx));
-@btime Interpolation.interp_spray!(ny, my, pa, :interp)
+@time Interpolation.interp_spray!(ny, my, pa, :interp)
 @test ny≈my
 
 myp = randn(size(my));
 nyp=zeros(length(nz), length(nx));
-@btime Interpolation.interp_spray!(nyp, myp, pa, :spray)
+@time Interpolation.interp_spray!(nyp, myp, pa, :spray)
 @test dot(my, myp) ≈ dot(ny, nyp)
 
 
@@ -51,14 +51,14 @@ for Battrib in [:B1, :B2]
 	ny=randn(length(nz), length(nx));
 	# interpolate
 	my=zeros(length(mz), length(mx));
-	@btime Interpolation.interp_spray!(ny, my, pa, :interp)
+	@time Interpolation.interp_spray!(ny, my, pa, :interp)
 
 
 	myp = randn(size(my));
 
 	# spray
 	nyp=zeros(length(nz), length(nx));
-	@btime Interpolation.interp_spray!(nyp, myp, pa, :spray)
+	@time Interpolation.interp_spray!(nyp, myp, pa, :spray)
 
 	# dot product test
 	@test dot(my, myp) ≈ dot(ny, nyp)
