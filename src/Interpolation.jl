@@ -1,5 +1,3 @@
-__precompile__()
-
 """
 ## TODO:
 * add dimension checks to interp_spray!
@@ -9,6 +7,9 @@ module Interpolation
 
 
 using LinearMaps
+using LinearAlgebra
+using SparseArrays
+
 
 
 abstract type Kernel end
