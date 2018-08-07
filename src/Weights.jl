@@ -20,6 +20,7 @@ function get_spray_weights!(weights::AbstractArray{Float64}, denomI::AbstractArr
 	weights[3] = 	(mesh_x[ix2[1]]-	xval)*	(zval-	mesh_z[iz1[1]])*	denomI[1]
 	"for iz2, ix2" 
 	weights[4] = 	(xval-	mesh_x[ix1[1]])*	(zval-	mesh_z[iz1[1]])*	denomI[1]
+
 	return weights, denomI, ix1, ix2, iz1, iz2
 end
 
