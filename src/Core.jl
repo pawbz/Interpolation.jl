@@ -5,7 +5,7 @@ N is either one or two
 * `x` coordinates before interpolation
 * `xi` coordinates after interpolation
 """
-type P_core{T<:Real}
+mutable struct P_core{T<:Real}
 	x::Array{Array{T,1},1}
 	xi::Array{Array{T,1},1}
 	np::Int
