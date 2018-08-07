@@ -17,7 +17,9 @@ abstract type Kernel end
 mutable struct Kernel_2D{T<:Real} <: Kernel
 	F1::SparseMatrixCSC{T,Int64}
 	F2::SparseMatrixCSC{T,Int64}
-	xx::Matrix{Float64}
+	xx::Matrix{T}
+	X::Matrix{T}
+	Xi::Matrix{T}
 end
 
 mutable struct Kernel_1D{T<:Real} <: Kernel
@@ -54,7 +56,10 @@ function Kernel(x::Array{Vector{Float64}},
 		      nothing, length(xi[1]), length(x[1]), ismutating=true)
 		F2=SparseArrays.sparse(F2)
 		xx=zeros(size(F1,1), length(x[1]))
-		return Kernel_2D(F1,F2,xx)
+		# temporary storage matrices
+		Xi=zeros(size(F1,1), size(F2,1))
+		X=zeros(length(x[2]), length(x[1]))
+		return Kernel_2D(F1,F2,xx,X,Xi)
 	else
 		error("dimension should be <=2")
 
@@ -69,7 +74,7 @@ function interp_spray!(y, yi, pa::Kernel_1D, attrib)
 		Ac_mul_B!(y, pa.F, yi)
 	end
 end
-function interp_spray!(y, yi, pa::Kernel_2D, attrib)
+function interp_spray!(y::Matrix{T}, yi::Matrix{T}, pa::Kernel_2D{T}, attrib) where {T<:Real}
 	if(attrib == :interp)
 		A_mul_B!(pa.xx, pa.F1, y)
 		A_mul_Bc!(yi, pa.xx, pa.F2)
@@ -80,10 +85,44 @@ function interp_spray!(y, yi, pa::Kernel_2D, attrib)
 end
 
 
+"""
+Method when the 2D arrays that are to interpolated are in the form of vectors.
+Note that multiple 2D arrays can be vcat'ed in these vectors, given by nmod.
+"""
+function interp_spray!(y::Vector{T}, yi::Vector{T}, pa::Kernel_2D{T}, attrib, nmod::Int) where {T<:Real}
+	n=div(length(y),nmod)
+	ni=div(length(yi),nmod)
+	itot=0
+	if(attrib==:interp)
+		for i in 1:nmod
+			for ii in eachindex(pa.X)
+				pa.X[ii]=y[ii+(i-1)*n]
+			end
+			interp_spray!(pa.X, pa.Xi, pa, attrib)
+			for ii in eachindex(pa.Xi)
+				yi[ii+(i-1)*ni]=pa.Xi[ii]
+			end
+		end
+	elseif(attrib==:spray)
+		for i in 1:nmod
+			for ii in eachindex(pa.Xi)
+				pa.Xi[ii]=yi[ii+(i-1)*ni]
+			end
+			interp_spray!(pa.X, pa.Xi, pa, attrib)
+			for ii in eachindex(pa.X)
+				y[ii+(i-1)*n]=pa.X[ii]
+			end
+		end
+
+	end
+end
+
 
 include("Misc.jl")
 
 include("Core.jl")
 include("Weights.jl")
+
+
 
 end # module
