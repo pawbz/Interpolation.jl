@@ -69,18 +69,18 @@ end
 
 function interp_spray!(y, yi, pa::Kernel_1D, attrib)
 	if(attrib == :interp)
-		A_mul_B!(yi, pa.F, y)
+		mul!(yi, pa.F, y)
 	elseif(attrib == :spray)
-		Ac_mul_B!(y, pa.F, yi)
+		mul!(y, adjoint(pa.F), yi)
 	end
 end
 function interp_spray!(y::Matrix{T}, yi::Matrix{T}, pa::Kernel_2D{T}, attrib) where {T<:Real}
 	if(attrib == :interp)
-		A_mul_B!(pa.xx, pa.F1, y)
-		A_mul_Bc!(yi, pa.xx, pa.F2)
+		mul!(pa.xx, pa.F1, y)
+		mul!(yi, pa.xx, adjoint(pa.F2))
 	elseif(attrib == :spray)
-		A_mul_B!(pa.xx, yi, pa.F2)
-		Ac_mul_B!(y, pa.F1, pa.xx)
+		mul!(pa.xx, yi, pa.F2)
+		mul!(y, adjoint(pa.F1), pa.xx)
 	end
 end
 

@@ -8,7 +8,7 @@ If a faster method is found, replace it later.
 function indminn!(ivec, x::AbstractVector{Float64}, val::Float64)
 	# using enumerate to avoid indexing
 	n=length(ivec)
-	ivec[:]=zero(eltype(ivec))
+	fill!(ivec,zero(eltype(ivec)))
 	for inn in 1:n
 		ivec[inn] = indminimum(x, val, ivec)
 	end
