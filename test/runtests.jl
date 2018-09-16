@@ -3,8 +3,8 @@ using BenchmarkTools
 using Test
 
 @testset "no extrapolations" begin
-	nx=Array(linspace(21,100,80));
-	mx=Array(linspace(1,100,100));
+	nx=Array(range(21,100,length=80));
+	mx=Array(range(1,100,length=100));
 	ny=ones(length(nx));
 	c=randn()
 	my=c.*ones(length(mx))
@@ -14,10 +14,10 @@ using Test
 	Interpolation.interp_spray!(ny, my, pa, :interp)
 	@test all(my[1:20] .== c)
 
-	nx=Array(linspace(3,7,64));
-	nz=Array(linspace(3,7,95));
-	mx=Array(linspace(1,10,10));
-	mz=Array(linspace(1,10,10));
+	nx=Array(range(3,7,length=64));
+	nz=Array(range(3,7,length=95));
+	mx=Array(range(1,10,length=10));
+	mz=Array(range(1,10,length=10));
 	ny=ones(length(nz), length(nx));
 	c=randn()
 	my=c.*ones(length(mz), length(mx))
@@ -32,10 +32,10 @@ end
 
 
 # also testing behaviour when out of bounds!!
-nx=Array(linspace(1,20,100));
-mx=Array(linspace(3,25,200));
-nz=Array(linspace(1,20,30));
-mz=Array(linspace(5,27,40));
+nx=Array(range(1,20,length=100));
+mx=Array(range(3,25,length=200));
+nz=Array(range(1,20,length=30));
+mz=Array(range(5,27,length=40));
 
 println("=====================================")
 ## 1D
