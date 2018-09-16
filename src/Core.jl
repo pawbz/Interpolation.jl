@@ -129,7 +129,7 @@ function interp_spray!(y::Matrix{Float64}, yi::Matrix{Float64} , pa::P_core{Floa
 		for i1 in pa.iximin[2]:pa.iximax[2], i2 in pa.iximin[1]:pa.iximax[1]
 			yi[i1, i2] = zero(Float64);
 		end
-		pa.y_x[:]=zero(Float64)
+		fill!(pa.y_x, zero(Float64))
 
 		# first along x
 		ivec=pa.ivecinterp[1]
