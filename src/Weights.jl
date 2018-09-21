@@ -3,9 +3,9 @@
 """
 get source spray weights
 """
-function get_spray_weights!(weights::AbstractArray{Float64}, denomI::AbstractArray{Float64}, 
+function get_spray_weights!(weights::AbstractArray, denomI::AbstractArray, 
 			   ix1::AbstractArray{Int64}, ix2::AbstractArray{Int64}, iz1::AbstractArray{Int64}, iz2::AbstractArray{Int64}, 
-			   mesh_x::Vector{Float64}, mesh_z::Vector{Float64}, xval::Float64, zval::Float64)
+			   mesh_x::AbstractArray, mesh_z::AbstractArray, xval::Float64, zval::Float64)
 
 
 	ix1[1], ix2[1] = indminn(mesh_x,xval,2)
@@ -28,9 +28,9 @@ end
 """
 get interpolation weights
 """
-function get_interpolate_weights!(weights::AbstractArray{Float64}, denomI::AbstractArray{Float64}, 
+function get_interpolate_weights!(weights::AbstractArray, denomI::AbstractArray, 
 			   ix1::AbstractArray{Int64}, ix2::AbstractArray{Int64}, iz1::AbstractArray{Int64}, iz2::AbstractArray{Int64}, 
-			   mesh_x::Vector{Float64}, mesh_z::Vector{Float64}, xval::Float64, zval::Float64)
+			   mesh_x::AbstractArray, mesh_z::AbstractArray, xval::Float64, zval::Float64)
 
 	ix1[1], ix2[1] = indminn(mesh_x,xval,2)
 	iz1[1], iz2[1] = indminn(mesh_z,zval,2)

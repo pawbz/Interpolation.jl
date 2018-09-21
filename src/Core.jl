@@ -26,7 +26,7 @@ mutable struct P_core{T<:Real}
 end
 
 
-function P_core(x::Array{Vector{Float64}}, xi::Array{Vector{Float64}}, Battrib::Symbol=:B1)
+function P_core(x::T, xi::T, Battrib::Symbol=:B1) where T
 
 	if(Battrib == :B1)
 		np=2;
@@ -88,7 +88,7 @@ function P_core(x::Array{Vector{Float64}}, xi::Array{Vector{Float64}}, Battrib::
 		y_z=zeros(1,1)
 	end
 	return P_core(
-	x,	xi,	np,	nd,	nx,	nxi,	ivecinterp,	ivecspray,	iximin,	iximax,	ixmin,
+	       Array.(x),Array.(xi),	np,	nd,	nx,	nxi,	ivecinterp,	ivecspray,	iximin,	iximax,	ixmin,
 	ixmax,	interp_func,	spray_func,	Battrib, y_x, y_z)
 
 

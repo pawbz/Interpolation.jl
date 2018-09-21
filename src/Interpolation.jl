@@ -27,8 +27,7 @@ mutable struct Kernel_1D{T<:Real} <: Kernel
 end
 
 
-function Kernel(x::Array{Vector{Float64}}, 
-		  xi::Array{Vector{Float64}}, Battrib::Symbol=:B1)
+function Kernel(x::T, xi::T, Battrib::Symbol=:B1) where T
 
 
 

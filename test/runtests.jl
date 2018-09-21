@@ -4,8 +4,8 @@ using LinearAlgebra
 using Test
 
 @testset "no extrapolations" begin
-	nx=Array(range(21,stop=100,length=80));
-	mx=Array(range(1,stop=100,length=100));
+	nx=range(21,stop=100,length=80);
+	mx=range(1,stop=100,length=100);
 	ny=ones(length(nx));
 	c=randn()
 	my=c.*ones(length(mx))
@@ -15,10 +15,10 @@ using Test
 	Interpolation.interp_spray!(ny, my, pa, :interp)
 	@test all(my[1:20] .== c)
 
-	nx=Array(range(3,stop=7,length=64));
-	nz=Array(range(3,stop=7,length=95));
-	mx=Array(range(1,stop=10,length=10));
-	mz=Array(range(1,stop=10,length=10));
+	nx=range(3,stop=7,length=64);
+	nz=range(3,stop=7,length=95);
+	mx=range(1,stop=10,length=10);
+	mz=range(1,stop=10,length=10);
 	ny=ones(length(nz), length(nx));
 	c=randn()
 	my=c.*ones(length(mz), length(mx))
@@ -33,10 +33,10 @@ end
 
 
 # also testing behaviour when out of bounds!!
-nx=Array(range(1,stop=20,length=100));
-mx=Array(range(3,stop=25,length=200));
-nz=Array(range(1,stop=20,length=30));
-mz=Array(range(5,stop=27,length=40));
+nx=range(1,stop=20,length=100);
+mx=range(3,stop=25,length=200);
+nz=range(1,stop=20,length=30);
+mz=range(5,stop=27,length=40);
 
 println("=====================================")
 for Battrib in [:B1, :B2]
