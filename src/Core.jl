@@ -196,13 +196,23 @@ bilinear interpolation
 Reference: http://www.ajdesigner.com/phpinterpolation/bilinear_interpolation_equation.php
 """
 function interp_B1_1D(iy, ivec, yV, X, Y, x)
-	@inbounds yV[iy] = ((Y[ivec[1]]*(X[ivec[2]]-x) + Y[ivec[2]]*(x-X[ivec[1]])) * inv(X[ivec[2]]-X[ivec[1]]))
+	denom=inv(X[ivec[2]]-X[ivec[1]])
+	if(isinf(denom))
+		@inbounds yV[iy] = Y[ivec[1]]
+	else
+		@inbounds yV[iy] = ((Y[ivec[1]]*(X[ivec[2]]-x) + Y[ivec[2]]*(x-X[ivec[1]])) * denom)
+	end
 end # interpolate_spray_B1_1D
 
 function spray_B1_1D(ivec, yV, X, x, y)
-	denom = (X[ivec[2]] - X[ivec[1]])
-	@inbounds yV[ivec[1]] += (y * (X[ivec[2]]-x)/denom)
-	@inbounds yV[ivec[2]] += (y * (x-X[ivec[1]])/denom)
+	denom = inv(X[ivec[2]] - X[ivec[1]])
+	if(isinf(denom))
+		@inbounds yV[ivec[1]] += y 
+		@inbounds yV[ivec[2]] += y
+	else
+		@inbounds yV[ivec[1]] += (y * (X[ivec[2]]-x)*denom)
+		@inbounds yV[ivec[2]] += (y * (x-X[ivec[1]])*denom)
+	end
 end # interpolate_spray_B1_1D
 
 

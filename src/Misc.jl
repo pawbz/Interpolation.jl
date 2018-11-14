@@ -8,11 +8,16 @@ If a faster method is found, replace it later.
 function indminn!(ivec, x::AbstractVector{Float64}, val::Float64)
 	# using enumerate to avoid indexing
 	n=length(ivec)
-	fill!(ivec,zero(eltype(ivec)))
-	for inn in 1:n
-		ivec[inn] = indminimum(x, val, ivec)
+	if(length(x)<n)
+		# if the desired indices is greater than length of x, what to do..
+		fill!(ivec,one(eltype(ivec)))
+	else
+		fill!(ivec,zero(eltype(ivec)))
+		for inn in 1:n
+			ivec[inn] = indminimum(x, val, ivec)
+		end
+		sort!(ivec)
 	end
-	sort!(ivec)
 	return ivec
 end
 
