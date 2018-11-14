@@ -56,9 +56,17 @@ function P_core(x::T, xi::T, Battrib::Symbol=:B1) where T
 		# yi is only updated "within" bounds of y 
 		# get two indices and choose the inner most one
 		iximin[id], iximax[id] = indminn_inside(xi[id], x[id][1], x[id][end])
+		# special case for NONZERO step
+		if(iximin[id]==iximax[id])
+			iximax[id]=indminn(xi[id], x[id][1]+step(x[id]),1)[1]
+		end
 		# spary values of y "within" bounds of yi
 		# get 2 indices and choose the inner most one
 		ixmin[id], ixmax[id] = indminn_inside(x[id],xi[id][1],xi[id][end])
+		# special case for NONZERO step
+		if(ixmin[id]==ixmax[id])
+			ixmax[id]=indminn(x[id], xi[id][1]+step(xi[id]),1)[1]
+		end
 
 		# index interp
 		for i in 1:nxi[id]

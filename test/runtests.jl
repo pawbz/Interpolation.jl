@@ -18,7 +18,24 @@ function dptest(nx,nz,mx,mz,Battrib)
 	@test LinearAlgebra.dot(my, myp) ≈ LinearAlgebra.dot(ny, nyp)
 end
 
-@testset "Interpolation on same grid for nx==1 and nz==1" begin
+@testset "Interpolation to a larger grid using  nx==1 or nz==1" begin
+	nx=range(1.,step=20.,length=1);
+	mx=range(1.,stop=40.,length=10);
+	nz=range(1.,stop=20.,length=30);
+	mz=range(4.,stop=16.,length=30);
+
+	dptest(nx,nz,mx,mz,:B1)
+
+	nx=range(4.,stop=16.,length=20);
+	mx=range(1.,stop=30.,length=30);
+	nz=range(1.,step=5.,length=1);
+	mz=range(1.,stop=10.,length=66);
+
+	dptest(nx,nz,mx,mz,:B1)
+end
+
+
+@testset "Interpolation on same grid for nx==1 or nz==1" begin
 	nx=range(1.,stop=1.,length=1);
 	mx=range(1.,stop=1.,length=1);
 	nz=range(1.,stop=20.,length=30);
@@ -33,10 +50,6 @@ end
 
 	dptest(nx,nz,mx,mz,:B1)
 end
-
-
-
-eeefed
 
 @testset "no extrapolations" begin
 	nx=range(21,stop=100,length=80);
