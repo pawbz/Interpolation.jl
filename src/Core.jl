@@ -244,7 +244,7 @@ function interp_B2_1D!(iy, ivec, yV, X,Y,x)
 	hcube = h*h*h;
 	hcubeI = hcube^(-1.0)
 
-	if(h == zero(Float64)) then
+	if(h == zero(Float64))
 		yV[iy] =  (Float64(0.25) * (Y[ivec[1]] + Y[ivec[2]] + Y[ivec[3]] + Y[ivec[4]]))
 	else
 		
